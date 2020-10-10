@@ -10,7 +10,7 @@ private:
     std::string z_name;
     ChildrenBook *pCB;
     int amount;
-    int free;
+    int fill;
 
 public:
     ChildrenLibraryHall()
@@ -18,14 +18,14 @@ public:
         std::string z_name = "Not Defined";
         ChildrenBook* pCB = nullptr;
         amount = 0;
-        free = 0;
+        fill = 0;
     }
     ChildrenLibraryHall(std::string z_name, int amount)
     {
         this->z_name = z_name;
         this->amount = amount;
         this->pCB = new ChildrenBook[amount];
-        free = amount;
+        fill = 0;
     }
 
     ChildrenLibraryHall(std::string z_name, int amount, ChildrenBook *pbooks)
@@ -37,14 +37,14 @@ public:
         {
             this->pCB[i] = pbooks[i];
         }
-        free = amount;
+        fill = amount;
     }
 
     ChildrenLibraryHall(ChildrenLibraryHall& clh)
     {
         this->z_name = clh.getZName();
         this->amount = clh.getAmount();
-        this->free = clh.free;
+        this->fill = clh.fill;
         this->pCB = new ChildrenBook[this->amount];
 
         for (int i=0; i<this->amount; i++)
@@ -104,7 +104,7 @@ public:
             arr[i] = pCB[i];
         }
         delete[] pCB;
-        if (free == amount) { amount++; }
+        if (fill == amount) { amount++; }
 
         pCB = new ChildrenBook[amount];
 
@@ -128,6 +128,7 @@ public:
             delete[] pCB;
             pCB = arr;
             this->amount++;*/
+            fill++;
             delete[] arr;
         }
         else { std::cout << "Array is too small" << std::endl;}
@@ -199,12 +200,14 @@ public:
         return str;
     }
 
-    ChildrenLibraryHall operator = (ChildrenLibraryHall copy)
+    ChildrenLibraryHall operator= (const ChildrenLibraryHall copy)
     {
         this->z_name = copy.z_name;
         this->pCB = copy.pCB;
         this->amount = copy.amount;
-        this->free = copy.free;
+        this->fill = copy.fill;
+
+        return *this;
     }
 
     void deleteBook(int num)

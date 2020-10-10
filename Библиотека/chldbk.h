@@ -35,7 +35,7 @@ public:
         this->year = year;
     }
 
-    ChildrenBook generateBook(int minAge)
+    static ChildrenBook generateBook(int minAge)
     {
         ChildrenBook cB;
         cB.setAthr(generateRandString());
@@ -98,7 +98,7 @@ public:
     }
 
 
-    std::string generateRandString(int len = 0)
+    static std::string generateRandString(int len = 0)
     {
         std::string str = "";
         if (!len)
@@ -110,6 +110,17 @@ public:
             str += char(rand() % 26 + 97);
         }
         return str;
+    }
+
+    ChildrenBook operator= (const ChildrenBook copy)
+    {
+        this->author = copy.author;
+        this->name = copy.name;
+        this->price = copy.price;
+        this->year = copy.year;
+        this->min_age = copy.min_age;
+
+        return *this;
     }
 
     void printB()

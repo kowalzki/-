@@ -6,9 +6,11 @@ void remakeBk();
 int main()
 {
     ChildrenLibraryHall hall("12+", 2);
-    /*hall.add();
-    hall.add();
-    hall.add();*/
+    ChildrenBook cbk1 = ChildrenBook::generateBook(12), cbk2 = ChildrenBook::generateBook(12);
+    hall.addN(cbk1, 0);
+    hall.addN(cbk2, 1);
+
+    std::cout << cbk1.getName() << std::endl;
 
     std::cout << hall.getAmount();
 
