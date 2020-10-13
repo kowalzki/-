@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include "chldbk.h"
+#include <time.h>
 
 class ChildrenLibraryHall
 {
@@ -56,7 +57,7 @@ public:
     ~ChildrenLibraryHall()
     {
         delete[] pCB;
-        pCB = 0;
+        pCB = nullptr;
     }
 
     ChildrenLibraryHall generateHall(int minAge, int count = -1)
@@ -89,6 +90,11 @@ public:
         return t;
     }
 
+    void setPointer(ChildrenBook* p)
+    {
+        this->pCB = p;
+    }
+
     void add(ChildrenBook book)
     {
         ChildrenBook* arr = new ChildrenBook[getAmount()+1];
@@ -102,7 +108,7 @@ public:
         this->amount++;
     }
 
-    void addN(ChildrenBook book, int num)
+    /*void addN(ChildrenBook book, int num)
     {
         ChildrenBook* arr = new ChildrenBook[getAmount()];
         for (int i = 0; i < getAmount(); i++)
@@ -114,9 +120,9 @@ public:
 
         pCB = new ChildrenBook[amount];
 
-        if (num <= getAmount()+1 && num >=0)
+        if (num <= this->getAmount()+1 && num >=0)
         {
-            for (int i = 0, j=0; i < num; i++, j++)
+            for (int i = 0, j=0; i < this->getAmount(); i++, j++)
             {
                 if (i == num)
                 {
@@ -125,19 +131,35 @@ public:
                 }
                 pCB[i] = arr[j];
             }
-            /*arr[num] = pCB[num];
-            for (i = i + 1; i < amount + 1; i++)
-            {
-                arr[i] = pCB[i];
-            }
-            arr[this->amount] = book;
-            delete[] pCB;
-            pCB = arr;
-            this->amount++;*/
+            
             fill++;
             delete[] arr;
         }
         else { std::cout << "Array is too small" << std::endl;}
+    }*/
+
+    void add(ChildrenBook book, int ind)
+    {
+        if (amount == fill)
+        {
+            amount++;
+        }
+        ChildrenBook* copy = new ChildrenBook[amount];
+
+        for (int iWr = 0, iRd = 0; iWr < amount; iWr++, iRd++)
+        {
+            if (iWr == ind)
+            {
+                copy[iWr] = book;
+                iWr++;  //возможно, iRd--
+                fill++;
+            }
+            else
+                copy[iWr] = pCB[iRd];
+        }
+        delete[] pCB;
+
+        pCB = copy;
     }
 
     ChildrenBook getBook(int n)
@@ -239,14 +261,14 @@ public:
         else { std::cout << "Array is too small" << std::endl; }
     }
 
-    int getBestBook()
+    ChildrenBook getBestBook()
     {
-        int i, price = 0, bb = 0;
-        for (i = 0; i < fill-1; i++)
+        ChildrenBook bb;
+        for (int i = 0; i < fill-1; i++)
         {
-            if (pCB[i].getPrice() < pCB[i + 1].getPrice())
+            if (bb.getPrice() < pCB[i].getPrice())
             {
-                bb = i + 1;
+                bb = pCB[i];
             }
         }
         return bb;

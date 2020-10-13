@@ -1,20 +1,25 @@
 ﻿#include "chldlbrhl.h"
 #include <iostream>
+#include <time.h>
 
 void remakeBk();
 
 int main()
 {
+    srand(time(NULL));
     ChildrenLibraryHall hall("12+", 2);
     ChildrenBook cbk1 = ChildrenBook::generateBook(12), cbk2 = ChildrenBook::generateBook(12), cbk3 = ChildrenBook::generateBook(12);
-    hall.addN(cbk1, 0);
-    hall.addN(cbk2, 1);
+    hall.add(cbk1, 0);
+    hall.add(cbk2, 1);
 
     std::cout << "cbk1: " << cbk1.getPrice() << std::endl << "cbk2: " << cbk2.getPrice() << std::endl;
 
-    hall.addN(cbk3, 2);  std::cout << hall.getAmount() << std::endl << "U ra here2" << std::endl << "cbk3: " << cbk3.getPrice() << std::endl;
-    std::cout << hall.getBestBook();
+    hall.add(cbk3, 2);  
+    std::cout << hall.getAmount() << std::endl << "U ra here2" << std::endl << "cbk3: " << cbk3.getPrice() << std::endl;
+    std::cout << hall.getBestBook().getPrice() << ", " << hall.getBestBook().getAthr() << std::endl;
 
+    system("pause");
+    return 0;
 }
 
 void remakeBk(int n)

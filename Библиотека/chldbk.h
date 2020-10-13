@@ -2,6 +2,7 @@
 #define CHLDBK_H
 #include <stdlib.h>
 #include <string>
+#include <time.h>
 
 class ChildrenBook
 {

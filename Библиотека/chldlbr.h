@@ -5,12 +5,22 @@
 
 class ChildrenLibrary
 {
+private:
 	ChildrenLibraryHall* pCH;
 	int amountOfBooks, amountOfHalls, filled;
-
-
-	ChildrenLibrary(int amountOH, int amountOB)
+	
+public:
+	ChildrenLibrary(int amountOH, int* pAmountOB)
 	{
+		this->amountOfHalls = amountOH;
+		pCH = new ChildrenLibraryHall[amountOfHalls];
+		
+		for (int i = 0; i < amountOH; i++)
+		{
+			ChildrenBook* ptm = new ChildrenBook[pAmountOB[i]];
+			pCH[i].setPointer(ptm);
+			pCH[i].setAmount(pAmountOB[i]);
+		}
 
 	}
 
@@ -43,6 +53,8 @@ class ChildrenLibrary
 		pCH = 0;
 	}
 
+
+
 	int getAOB()
 	{
 		return this->amountOfBooks;
@@ -57,7 +69,4 @@ class ChildrenLibrary
 	{
 		return this->filled;
 	}
-
-
-
 };
