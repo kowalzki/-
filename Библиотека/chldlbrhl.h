@@ -53,6 +53,12 @@ public:
         }
     }
 
+    ~ChildrenLibraryHall()
+    {
+        delete[] pCB;
+        pCB = 0;
+    }
+
     ChildrenLibraryHall generateHall(int minAge, int count = -1)
     {
         if (count == -1)
@@ -214,7 +220,7 @@ public:
     {
         ChildrenBook* arr = new ChildrenBook[getAmount()-1];
         int i;
-        if (num <= getAmount() && num >= 0)
+        if (num < amount && num >= 0)
         {
             for (i = 0; i <= num - 1; i++)
             {
@@ -227,11 +233,24 @@ public:
             }
             delete[] pCB;
             pCB = arr;
+            amount--;
+            fill--;
         }
         else { std::cout << "Array is too small" << std::endl; }
     }
 
-
+    int getBestBook()
+    {
+        int i, price = 0, bb = 0;
+        for (i = 0; i < fill-1; i++)
+        {
+            if (pCB[i].getPrice() < pCB[i + 1].getPrice())
+            {
+                bb = i + 1;
+            }
+        }
+        return bb;
+    }
 };
 
 #endif // CHLDLBRHL_H
