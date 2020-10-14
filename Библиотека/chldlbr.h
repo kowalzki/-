@@ -69,4 +69,21 @@ public:
 	{
 		return this->filled;
 	}
+
+	int getFAOB() // Сумма всех книг в либке
+	{
+		int FAOB = 0;
+		for (int i = 0; i < amountOfHalls; i++)
+		{
+			FAOB += pCH[i].getAmount();
+		}
+		return FAOB;
+	}
+
+	ChildrenLibraryHall getHalls()
+	{
+		return *pCH;
+	}
+
+
 };

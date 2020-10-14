@@ -36,4 +36,9 @@ void remakeBk(int n)
     std::cout << "\nNew version:" << std::endl;
 
     clh.remakeBook(n, athr, name, year, price, minAge);
+    std::cout << "\nNew author: ";
+    std::cout << "New name: ";
+    std::cout << "New year of publish: ";
+    std::cout << "New price: ";
+    std::cout << "New min age: ";
 }
