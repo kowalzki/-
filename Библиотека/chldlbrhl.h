@@ -11,7 +11,6 @@ private:
     std::string z_name;
     ChildrenBook *pCB;
     int amount;
-    int fill;
 
 public:
     ChildrenLibraryHall()
@@ -19,14 +18,12 @@ public:
         std::string z_name = "Not Defined";
         ChildrenBook* pCB = nullptr;
         amount = 0;
-        fill = 0;
     }
     ChildrenLibraryHall(std::string z_name, int amount)
     {
         this->z_name = z_name;
         this->amount = amount;
         this->pCB = new ChildrenBook[amount];
-        fill = 0;
     }
 
     ChildrenLibraryHall(std::string z_name, int amount, ChildrenBook *pbooks)
@@ -38,19 +35,21 @@ public:
         {
             this->pCB[i] = pbooks[i];
         }
-        fill = amount;
     }
 
-    ChildrenLibraryHall(ChildrenLibraryHall& clh)
+    ChildrenLibraryHall(const ChildrenLibraryHall&  copy)
     {
-        this->z_name = clh.getZName();
-        this->amount = clh.getAmount();
-        this->fill = clh.fill;
+        if (!pCB)
+        {
+            pCB = new ChildrenBook[copy.amount];
+        }
+        this->z_name = copy.getZName();
+        this->amount = copy.getAmount();
         this->pCB = new ChildrenBook[this->amount];
 
         for (int i=0; i<this->amount; i++)
         {
-            this->pCB[i] = clh.pCB[i];
+            this->pCB[i] = copy.pCB[i];
         }
     }
 
@@ -140,11 +139,7 @@ public:
 
     void add(ChildrenBook book, int ind)
     {
-        if (amount == fill)
-        {
-            amount++;
-        }
-        ChildrenBook* copy = new ChildrenBook[amount];
+        ChildrenBook* copy = new ChildrenBook[amount+1];
 
         for (int iWr = 0, iRd = 0; iWr < amount; iWr++, iRd++)
         {
@@ -152,7 +147,7 @@ public:
             {
                 copy[iWr] = book;
                 iWr++;  //возможно, iRd--
-                fill++;
+                amount++;
             }
             else
                 copy[iWr] = pCB[iRd];
@@ -162,7 +157,7 @@ public:
         pCB = copy;
     }
 
-    ChildrenBook getBook(int n)
+    ChildrenBook getBook(int n) const
     {
         return pCB[n];
     }
@@ -176,12 +171,12 @@ public:
         pCB[n].setMinAge(minAge);
     }
 
-    int getAmount()
+    int getAmount() const
     {
         return this->amount;
     }
 
-    std::string getZName()
+    std::string getZName() const
     {
         return this->z_name;
     }
@@ -231,10 +226,16 @@ public:
     ChildrenLibraryHall operator= (const ChildrenLibraryHall copy)
     {
         this->z_name = copy.z_name;
-        this->pCB = copy.pCB;
         this->amount = copy.amount;
-        this->fill = copy.fill;
+        if (!pCB)
+        {
+            pCB = new ChildrenBook[amount];
+        }
 
+        for (int i = 0; i < amount; i++)
+        {
+            this->pCB[i] = copy.getBook(i);
+        }
         return *this;
     }
 
@@ -256,7 +257,6 @@ public:
             delete[] pCB;
             pCB = arr;
             amount--;
-            fill--;
         }
         else { std::cout << "Array is too small" << std::endl; }
     }
@@ -264,7 +264,7 @@ public:
     ChildrenBook getBestBook()
     {
         ChildrenBook bb;
-        for (int i = 0; i < fill-1; i++)
+        for (int i = 0; i < amount-1; i++)
         {
             if (bb.getPrice() < pCB[i].getPrice())
             {
