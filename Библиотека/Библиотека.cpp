@@ -26,33 +26,47 @@ int main()
     std::cout << hall.getBestBook().getPrice() << ", " << hall.getBestBook().getAthr() << std::endl;*/
     ChildrenLibrary libka;
     libka = generateLibrary();
+    libka.printLib();
+    std::cout << "____________________________________\n" << std::endl;
     
-    std::cout << libka.getBestBook().getAthr();
+    //Добавление книги в зал
+    libka.getHallInd(3).add(generateBook(10), 2);
+    libka.printLib();
+    std::cout << "____________________________________\n" << std::endl;
+
+    //Добавление книги в библиотеку
+    libka.addBookInd(10, generateBook(8));
+    libka.printLib();
+    std::cout << "____________________________________\n" << std::endl;
+
+    //Изменение книги
+    libka.getHallInd(2).remakeBook(1, "Pushkin", "CHANGED", 1998, 950, 12);
+    libka.printLib();
+    std::cout << "____________________________________\n" << std::endl;
+
+    //Изменение зала
+    ChildrenBook* newHall = new ChildrenBook[5];
+    for (int i = 0; i < 5; i++)
+    {
+        newHall[i] = generateBook(9);
+    }
+    libka.changeHall(1, "9+", 5, newHall);
+    libka.printLib();
+    std::cout << "____________________________________\n" << std::endl;
+    
+    //Удаляем Пушкина
+    libka.getHallInd(2).deleteBook(1);
+    libka.printLib();
+    std::cout << "____________________________________\n" << std::endl;
+
+    //Лучшая книга
+    std::cout << "Best book:" << std::endl;
+    libka.getBestBook().printB();
 
     system("pause");
     return 0;
 }
 
-void remakeBk(int n)
-{
-    ChildrenLibraryHall clh;
-    std::string athr, name;
-    int year, price, minAge;
-
-    std::cout << "\nSet new author: "; std::cin >> athr; std::cin.ignore(); std::cin.clear();
-    std::cout << "Set new name: "; std::cin >> name; std::cin.ignore(); std::cin.clear(); 
-    std::cout << "Set new year of publish: "; std::cin >> year; std::cin.ignore(); std::cin.clear();
-    std::cout << "Set new price: "; std::cin >> price; std::cin.ignore(); std::cin.clear(); 
-    std::cout << "Set new min age: "; std::cin >> minAge; std::cin.ignore(); std::cin.clear();
-    std::cout << "\nNew version:" << std::endl;
-
-    clh.remakeBook(n, athr, name, year, price, minAge);
-    std::cout << "\nNew author: ";
-    std::cout << "New name: ";
-    std::cout << "New year of publish: ";
-    std::cout << "New price: ";
-    std::cout << "New min age: ";
-}
 
 std::string generateRandString(int len)
 {
@@ -79,9 +93,8 @@ ChildrenBook generateBook(int minAge)
 
 ChildrenLibraryHall generateHall(int minAge, int count)
 {
-    if (count == -1)
-    {
-        count = rand() % 20;
+    if (count == -1) {
+        count = rand() % 3 + 3;
     }
     ChildrenLibraryHall clh;
     std::string name = "";
@@ -110,7 +123,7 @@ ChildrenLibrary generateLibrary(int hallsNum, int maxMinAge)
 {
     if (hallsNum == -1)
     {
-        hallsNum = rand() % 5 + 5;
+        hallsNum = rand() % 4 + 3;
     }
     ChildrenLibrary cl;
     ChildrenLibraryHall hall;

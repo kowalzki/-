@@ -7,13 +7,12 @@ class ChildrenLibrary
 {
 private:
 	ChildrenLibraryHall* pCH;
-	int amountOfBooks, amountOfHalls;
+	int amountOfHalls;
 	
 public:
 	ChildrenLibrary()
 	{
 		pCH = nullptr;
-		amountOfBooks = 0;
 		amountOfHalls = 0;
 	}
 
@@ -42,12 +41,10 @@ public:
 
 	ChildrenLibrary(const ChildrenLibrary& copy)
 	{
-		this->amountOfBooks = copy.getAOB();
 		this->amountOfHalls = copy.getAOH();
 		this->pCH = new ChildrenLibraryHall[this->amountOfHalls];
 
-		for (int i = 0; i < this->amountOfHalls; i++)
-		{
+		for (int i = 0; i < this->amountOfHalls; i++) {
 			this->pCH[i] = copy.pCH[i];
 		}
 	}
@@ -74,9 +71,11 @@ public:
         pCH = copy;
 	}
 
-	int getAOB() const
+	void changeHall(int ind, std::string newnme, int newamnt, ChildrenBook* newptr)
 	{
-		return this->amountOfBooks;
+		this->pCH[ind].setAmount(newamnt);
+		this->pCH[ind].setZName(newnme);
+		this->pCH[ind].setPointer(newptr);
 	}
 
 	int getAOH() const
@@ -100,10 +99,20 @@ public:
 		return *pCH;
 	}
 
-	ChildrenLibraryHall getHallInd(int index)
+	/*ChildrenLibraryHall getHallInd(int index)
 	{
 		return pCH[index];
+	}*/
+
+	ChildrenLibraryHall& getHallInd(int ind) const
+	{
+		if (ind >= this->amountOfHalls) {
+			ChildrenLibraryHall newH;
+			return newH;
+		}
+		return this->pCH[ind];
 	}
+
 
 	ChildrenBook getBookInd(int index)
 	{
@@ -127,18 +136,28 @@ public:
 				<< ". Количество книг в зале: " << pCH[i].getAmount() << std::endl;
 		}
 	}
+	
 
-	void replaceHAll(int index, ChildrenLibraryHall* copy)
-	{
-		pCH[index] = *copy;
-	}
 
+	/*
 	void replaceBook(int ind, ChildrenBook* copy)
 	{
+		pCH->remakeBook
 		getBookInd(ind) = *copy;
-	}
 
-	void addBookInd(int ind, ChildrenBook* added)
+
+		if (!this->remove(num))
+		{
+			return false;
+		}
+		if (!this->add(hall, num))
+		{
+			return false;
+		}
+		return true;
+	}*/
+
+	void addBookInd(int ind, ChildrenBook added)
 	{
 		for (int i = 0; i < amountOfHalls; i++)
 		{
@@ -147,7 +166,7 @@ public:
 				ind -= lgh;
 			}
 			else {
-				pCH[i].add(*added, ind);
+				pCH[i].add(added, ind);
 			}
 		}
 	}
@@ -181,9 +200,26 @@ public:
 
 	ChildrenLibrary operator= (const ChildrenLibrary copy)
 	{
-		this->amountOfBooks = copy.amountOfBooks;
+		if (!pCH)
+		{
+			pCH = new ChildrenLibraryHall[copy.amountOfHalls];
+		}
+		for (int i = 0; i < copy.amountOfHalls; i++)
+		{
+			this->pCH[i] = copy.pCH[i];
+		}
+
 		this->amountOfHalls = copy.amountOfHalls;
 
 		return *this;
+	}
+
+	void printLib()
+	{
+		for (int i = 0; i < amountOfHalls; i++)
+		{
+			pCH[i].printHl();
+			std::cout << std::endl;
+		}
 	}
 };

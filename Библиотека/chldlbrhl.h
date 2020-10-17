@@ -4,6 +4,7 @@
 #include <iostream>
 #include "chldbk.h"
 #include <time.h>
+#include <iomanip>
 
 class ChildrenLibraryHall
 {
@@ -39,10 +40,6 @@ public:
 
     ChildrenLibraryHall(const ChildrenLibraryHall&  copy)
     {
-        if (!pCB)
-        {
-            pCB = new ChildrenBook[copy.amount];
-        }
         this->z_name = copy.getZName();
         this->amount = copy.getAmount();
         this->pCB = new ChildrenBook[this->amount];
@@ -52,14 +49,14 @@ public:
             this->pCB[i] = copy.pCB[i];
         }
     }
-
+    
     ~ChildrenLibraryHall()
     {
         delete[] pCB;
         pCB = nullptr;
     }
 
-    ChildrenLibraryHall generateHall(int minAge, int count = -1)
+    /*ChildrenLibraryHall generateHall(int minAge, int count = -1)
     {
         if (count == -1)
         {
@@ -87,7 +84,7 @@ public:
             t.add(pCB->generateBook(minAge));
         }
         return t;
-    }
+    }*/
 
     void setPointer(ChildrenBook* p)
     {
@@ -136,31 +133,70 @@ public:
         }
         else { std::cout << "Array is too small" << std::endl;}
     }*/
+    //add 
+    /*void add(ChildrenBook book, int ind)
+    {
+        if (ind > this->amount; i++)
+        {
+            ChildrenBook* copy = new ChildrenBook[amount + 1];
+
+            for (int iWr = 0, iRd = 0; iWr < amount; iWr++, iRd++)
+            {
+                if (iWr == ind)
+                {
+                    copy[iWr] = book;
+                    iWr++;  //возможно, iRd--
+                    amount++;
+                }
+                else
+                    copy[iWr] = pCB[iRd];
+            }
+            delete[] pCB;
+
+            pCB = copy;
+        }
+    }*/  // addm
 
     void add(ChildrenBook book, int ind)
     {
-        ChildrenBook* copy = new ChildrenBook[amount+1];
-
-        for (int iWr = 0, iRd = 0; iWr < amount; iWr++, iRd++)
+        if (ind < 0 || ind > amount)
         {
-            if (iWr == ind)
+            return;
+        }
+        this->amount++;
+        ChildrenBook* copy = new ChildrenBook[amount];
+        for (int i = 0, k = 0; k < this->amount; i++, k++)
+        {
+            if (k != ind)
             {
-                copy[iWr] = book;
-                iWr++;  //возможно, iRd--
-                amount++;
+                copy[k] = this->pCB[i];
             }
             else
-                copy[iWr] = pCB[iRd];
+            {
+                copy[k] = book;
+                i--;
+            }
         }
-        delete[] pCB;
-
-        pCB = copy;
+        delete[] this->pCB;
+        this->pCB = copy;
     }
 
-    ChildrenBook getBook(int n) const
+
+    /*ChildrenBook getBook(int n) const
     {
         return pCB[n];
+    }*/
+
+    ChildrenBook getBook(int ind) const
+    {
+        if (ind >= this->amount)
+        {
+            ChildrenBook t;
+            return t;
+        }
+        return this->pCB[ind];
     }
+
     
     void remakeBook(int n, std::string athr, std::string name, int year, int price, int minAge)
     {
@@ -227,10 +263,8 @@ public:
     {
         this->z_name = copy.z_name;
         this->amount = copy.amount;
-        if (!pCB)
-        {
-            pCB = new ChildrenBook[amount];
-        }
+        pCB = new ChildrenBook[amount];
+        
 
         for (int i = 0; i < amount; i++)
         {
@@ -272,6 +306,23 @@ public:
             }
         }
         return bb;
+    }
+
+    ChildrenBook& operator[](const int index)
+    {
+        return this->pCB[index];
+    }
+
+    void printHl()
+    {        
+        std::cout << "Hall: " << z_name << "\n Amount of books: " << this->amount << std::endl;
+        for (int i = 0; i < this->amount; i++)
+        {
+            std::cout << " Book #" << i << " author: " << std::setw(7) << this->pCB[i].getAthr() 
+                << " name: " << std::setw(7) << this -> pCB[i].getName() 
+                << " price: " << std::setw(7) << pCB[i].getPrice() << std::endl;
+        }
+        std::cout << std::endl;
     }
 };
 
