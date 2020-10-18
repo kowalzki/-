@@ -25,26 +25,31 @@ int main()
     std::cout << hall.getAmount() << std::endl << "U ra here2" << std::endl << "cbk3: " << cbk3.getPrice() << std::endl;
     std::cout << hall.getBestBook().getPrice() << ", " << hall.getBestBook().getAthr() << std::endl;*/
     ChildrenLibrary libka;
+    std::cout << "Library v1.0\n";
     libka = generateLibrary();
     libka.printLib();
     std::cout << "____________________________________\n" << std::endl;
     
     //Добавление книги в зал
-    libka.getHallInd(3).add(generateBook(10), 2);
+    std::cout << "Library v1.1. Add book to the Hall\n";
+    libka.getHallInd(1).add(generateBook(10), 1);
     libka.printLib();
     std::cout << "____________________________________\n" << std::endl;
 
     //Добавление книги в библиотеку
+    std::cout << "Library v1.2. Add book to the library\n";
     libka.addBookInd(10, generateBook(8));
     libka.printLib();
     std::cout << "____________________________________\n" << std::endl;
 
     //Изменение книги
+    std::cout << "Library v1.3. Change book to Pushkin\n";
     libka.getHallInd(2).remakeBook(1, "Pushkin", "CHANGED", 1998, 950, 12);
     libka.printLib();
     std::cout << "____________________________________\n" << std::endl;
 
     //Изменение зала
+    std::cout << "Library v1.4. Change hall to something\n";
     ChildrenBook* newHall = new ChildrenBook[5];
     for (int i = 0; i < 5; i++)
     {
@@ -55,9 +60,11 @@ int main()
     std::cout << "____________________________________\n" << std::endl;
     
     //Удаляем Пушкина
+    std::cout << "Library v1.5. Say goodbye to Pushkin\n";
     libka.getHallInd(2).deleteBook(1);
     libka.printLib();
-    std::cout << "____________________________________\n" << std::endl;
+    std::cout << "Library v2.0 is ready|\n";
+    std::cout << "_____________________| \n \n" << std::endl;
 
     //Лучшая книга
     std::cout << "Best book:" << std::endl;
@@ -123,7 +130,7 @@ ChildrenLibrary generateLibrary(int hallsNum, int maxMinAge)
 {
     if (hallsNum == -1)
     {
-        hallsNum = rand() % 4 + 3;
+        hallsNum = 3;// rand() % 4 + 3;
     }
     ChildrenLibrary cl;
     ChildrenLibraryHall hall;

@@ -157,6 +157,45 @@ public:
         }
     }*/  // addm
 
+    void deleteBook(int ind)
+    {/*
+        ChildrenBook* arr = new ChildrenBook[amount-1];
+        int i;
+        if (num < amount && num >= 0)
+        {
+            for (i = 0; i <= num - 1; i++)
+            {
+                arr[i] = pCB[i];
+            }
+            i++;
+            for (i; i < amount -1; i++)
+            {
+                arr[i-1] = pCB[i];
+            }
+            delete[] pCB;
+            pCB = arr;
+            amount--;
+        }
+        else { std::cout << "Array is too small" << std::endl; }
+        */
+        if (ind < 0 || ind >= amount) {
+            return;
+        }
+        ChildrenBook* copy = new ChildrenBook[amount - 1];
+        for (int iWr = 0, iRd = 0; iRd < this->amount; iWr++, iRd++) {
+            if (iRd != ind) {
+                copy[iWr] = this->pCB[iRd];
+            }
+            else {
+                iWr--;
+            }
+        }
+
+        this->amount--;
+        delete[] this->pCB;
+        this->pCB = copy;
+    }
+
     void add(ChildrenBook book, int ind)
     {
         if (ind < 0 || ind > amount)
@@ -271,28 +310,6 @@ public:
             this->pCB[i] = copy.getBook(i);
         }
         return *this;
-    }
-
-    void deleteBook(int num)
-    {
-        ChildrenBook* arr = new ChildrenBook[getAmount()-1];
-        int i;
-        if (num < amount && num >= 0)
-        {
-            for (i = 0; i <= num - 1; i++)
-            {
-                arr[i] = pCB[i];
-            }
-            i++;
-            for (i = i + 1; i < amount -1; i++)
-            {
-                arr[i-1] = pCB[i-1];
-            }
-            delete[] pCB;
-            pCB = arr;
-            amount--;
-        }
-        else { std::cout << "Array is too small" << std::endl; }
     }
 
     ChildrenBook getBestBook()

@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Библиотека.cpp" />
+    <ClCompile Include="library.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chldbk.h" />
